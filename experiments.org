@@ -1,0 +1,5 @@
+#+TITLE:experiments with puppet
+
+* create a catalog
+: puppet master --compile foo.vm --modulepath=~/punch/modules --manifestdir=~/punch/manifests 
+puppet 

@@ -1,0 +1,210 @@
+{
+  "document_type": "Catalog",
+  "data": {
+    "edges": [
+      {
+        "target": "Node[default]",
+        "source": "Class[main]"
+      },
+      {
+        "target": "File[/etc/nginx/sites-enabled]",
+        "source": "Node[default]"
+      },
+      {
+        "target": "Service[nginx]",
+        "source": "Node[default]"
+      },
+      {
+        "target": "File[/etc/nginx/sites-available/hello]",
+        "source": "Node[default]"
+      },
+      {
+        "target": "Package[nginx]",
+        "source": "Node[default]"
+      },
+      {
+        "target": "File[/usr/share/nginx/www/index.html]",
+        "source": "Node[default]"
+      },
+      {
+        "target": "File[/etc/nginx/sites-enabled/hello]",
+        "source": "Node[default]"
+      },
+      {
+        "target": "Class[main]",
+        "source": "Stage[main]"
+      },
+      {
+        "target": "Class[Settings]",
+        "source": "Stage[main]"
+      }
+    ],
+    "version": 1359996833,
+    "name": "foo.vm",
+    "tags": [
+      "settings",
+      "default",
+      "node"
+    ],
+    "resources": [
+      {
+        "tags": [
+          "node",
+          "default",
+          "class"
+        ],
+        "title": "default",
+        "exported": false,
+        "type": "Node"
+      },
+      {
+        "file": "/home/vagrant/punch/manifests/site.pp",
+        "tags": [
+          "file",
+          "node",
+          "default",
+          "class"
+        ],
+        "title": "/etc/nginx/sites-enabled",
+        "exported": false,
+        "line": 32,
+        "parameters": {
+          "purge": true,
+          "force": true,
+          "ensure": "directory",
+          "require": "Package[nginx]",
+          "recurse": true
+        },
+        "type": "File"
+      },
+      {
+        "file": "/home/vagrant/punch/manifests/site.pp",
+        "tags": [
+          "service",
+          "nginx",
+          "node",
+          "default",
+          "class"
+        ],
+        "title": "nginx",
+        "exported": false,
+        "line": 60,
+        "parameters": {
+          "hasstatus": true,
+          "restart": "/etc/init.d/nginx reload",
+          "ensure": "running"
+        },
+        "type": "Service"
+      },
+      {
+        "file": "/home/vagrant/punch/manifests/site.pp",
+        "tags": [
+          "file",
+          "node",
+          "default",
+          "class"
+        ],
+        "title": "/etc/nginx/sites-available/hello",
+        "exported": false,
+        "line": 24,
+        "parameters": {
+          "content": "\nserver {\n\tlisten   80; ## listen for ipv4; this line is default and implied\n\n\troot /usr/share/nginx/www;\n\tindex index.html index.htm;\n\n\tserver_name localhost;\n\n\tlocation / {\n\t\ttry_files $uri $uri/ /index.html;\n\t}\n\n}\n\n",
+          "require": "Package[nginx]"
+        },
+        "type": "File"
+      },
+      {
+        "file": "/home/vagrant/punch/manifests/site.pp",
+        "tags": [
+          "package",
+          "nginx",
+          "node",
+          "default",
+          "class"
+        ],
+        "title": "nginx",
+        "exported": false,
+        "line": 4,
+        "parameters": {
+          "ensure": "installed"
+        },
+        "type": "Package"
+      },
+      {
+        "file": "/home/vagrant/punch/manifests/site.pp",
+        "tags": [
+          "file",
+          "node",
+          "default",
+          "class"
+        ],
+        "title": "/usr/share/nginx/www/index.html",
+        "exported": false,
+        "line": 55,
+        "parameters": {
+          "content": "\n<html>\n<head>\n<title>Hello world!</title>\n</head>\n<body>\n<h1>Howdy!</h1>\n</body>\n</html>\n\n",
+          "require": "Package[nginx]",
+          "notify": "Service[nginx]"
+        },
+        "type": "File"
+      },
+      {
+        "file": "/home/vagrant/punch/manifests/site.pp",
+        "tags": [
+          "file",
+          "node",
+          "default",
+          "class"
+        ],
+        "title": "/etc/nginx/sites-enabled/hello",
+        "exported": false,
+        "line": 39,
+        "parameters": {
+          "ensure": "link",
+          "require": "File[/etc/nginx/sites-available/hello]",
+          "target": "/etc/nginx/sites-available/hello",
+          "notify": "Service[nginx]"
+        },
+        "type": "File"
+      },
+      {
+        "tags": [
+          "class"
+        ],
+        "title": "main",
+        "exported": false,
+        "parameters": {
+          "name": "main"
+        },
+        "type": "Class"
+      },
+      {
+        "tags": [
+          "class",
+          "settings"
+        ],
+        "title": "Settings",
+        "exported": false,
+        "type": "Class"
+      },
+      {
+        "tags": [
+          "stage"
+        ],
+        "title": "main",
+        "exported": false,
+        "parameters": {
+          "name": "main"
+        },
+        "type": "Stage"
+      }
+    ],
+    "classes": [
+      "settings",
+      "default"
+    ]
+  },
+  "metadata": {
+    "api_version": 1
+  }
+}
