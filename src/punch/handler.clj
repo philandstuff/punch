@@ -1,7 +1,8 @@
 (ns punch.handler
   (:use compojure.core)
   (:require [compojure.handler :as handler]
-            [compojure.route :as route]))
+            [compojure.route :as route]
+            [ring.mock.request :refer [request]]))
 
 (def blank-catalog (binding [*read-eval* false] ; not necessary, but paranoid
                      (slurp (clojure.java.io/resource "blank-catalog.json"))))
@@ -14,3 +15,6 @@
 
 (def app
   (handler/site app-routes))
+
+(defn -main [& args]
+  (print (:body (app (request :get "/")))))
