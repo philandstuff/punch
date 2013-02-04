@@ -10,5 +10,12 @@ Vagrant::Config.run do |config|
   # config.vm.customize [ "modifyvm", :id, "--memory", "1024", "--cpus", "2" ]
 
   config.vm.host_name = 'vm'
+
+  config.vm.provision :puppet do |puppet|
+    puppet.options = "--catalog" # hackity hack
+    puppet.manifests_path = 'catalogs'
+    puppet.manifest_file = 'vm.json'
+  end
+
 end
 
