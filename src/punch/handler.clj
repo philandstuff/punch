@@ -3,8 +3,12 @@
   (:require [compojure.handler :as handler]
             [compojure.route :as route]))
 
+(def blank-catalog (slurp "blank-catalog.json"))
+
 (defroutes app-routes
-  (GET "/" [] "Hello World")
+  (GET "/" []
+       {:headers {"Content-Type" "application/json"}
+        :body    blank-catalog})
   (route/not-found "Not Found"))
 
 (def app
