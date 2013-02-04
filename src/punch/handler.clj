@@ -3,7 +3,8 @@
   (:require [compojure.handler :as handler]
             [compojure.route :as route]))
 
-(def blank-catalog (slurp "blank-catalog.json"))
+(def blank-catalog (binding [*read-eval* false] ; not necessary, but paranoid
+                     (slurp (clojure.java.io/resource "blank-catalog.json"))))
 
 (defroutes app-routes
   (GET "/" []
