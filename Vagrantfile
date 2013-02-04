@@ -1,3 +1,4 @@
+require 'fileutils'
 BOX_URL = "http://files.vagrantup.com/precise64.box"
 
 Vagrant::Config.run do |config|
@@ -11,6 +12,9 @@ Vagrant::Config.run do |config|
 
   config.vm.host_name = 'vm'
 
+  FileUtils.rm_rf 'catalogs'
+  FileUtils.mkdir 'catalogs'
+  system 'lein run > catalogs/vm.json'
   config.vm.provision :puppet do |puppet|
     puppet.options = "--catalog" # hackity hack
     puppet.manifests_path = 'catalogs'
