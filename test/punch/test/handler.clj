@@ -1,22 +1,20 @@
 (ns punch.test.handler
-  (:use clojure.test
+  (:use expectations
         ring.mock.request  
         punch.handler)
   (:require [cheshire.core :refer [parse-string]]))
 
-(defn valid-json-catalog? [json-data]
-  (and
-   (= (get-in json-data ["metadata" "api_version"]) 1)
-   (= (get json-data "document_type") "Catalog")))
+(let [response (app (request :get "/"))
+      parsed-json (parse-string (:body response))]
+  (expect "application/json" (get-in response [:headers "Content-Type"]))
+  (expect 200                (:status response))
 
-(deftest test-app
-  (testing "main route"
-    (let [response (app (request :get "/"))
-          parsed-json (parse-string (:body response))]
-      (is (= (get-in response [:headers "Content-Type"]) "application/json"))
-      (is (= (:status response) 200))
-      (is (valid-json-catalog? parsed-json))))
-  
-  (testing "not-found route"
-    (let [response (app (request :get "/invalid"))]
-      (is (= (:status response) 404)))))
+  (expect #{"data" "document_type" "metadata"}
+          (set (keys parsed-json)))
+  (expect #{"name" "tags" "classes" "edges" "version" "resources"}
+          (set (keys (get parsed-json "data"))))
+  (expect {"document_type" "Catalog", "metadata" {"api_version" 1}}
+          (in parsed-json)))
+
+(expect 404
+        (:status (app (request :get "/invalid"))))
