@@ -5,35 +5,35 @@
   (:require [cheshire.core :refer [parse-string]]))
 
 (let [catalog   (catalog-for "localhost")
-      resources (get-in catalog ["data" "resources"])
-      edges     (get-in catalog ["data" "edges"])]
+      resources (get-in catalog [:data :resources])
+      edges     (get-in catalog [:data :edges])]
   ;; should have a Class[main]
-  (expect {"type"     "Class",
-           "title"    "main",
-           "parameters" {"name" "main"},
-           "tags"     ["class"],
-           "exported" false}
+  (expect {:type     "Class",
+           :title    "main",
+           :parameters {:name "main"},
+           :tags     ["class"],
+           :exported false}
           (in resources))
   ;; should have a Stage[main]
-  (expect {"type"     "Stage",
-           "title"    "main",
-           "parameters" {"name" "main"},
-           "tags"     ["stage"],
-           "exported" false}
+  (expect {:type     "Stage",
+           :title    "main",
+           :parameters {:name "main"},
+           :tags     ["stage"],
+           :exported false}
           (in resources))
   ;; should have a Class[settings]
-  (expect {"type"     "Class",
-           "title"    "Settings",
-           "tags"     ["class" "settings"],
-           "exported" false}
+  (expect {:type     "Class",
+           :title    "Settings",
+           :tags     ["class" "settings"],
+           :exported false}
           (in resources))
   ;; Stage[main]/Class[main]
-  (expect {"source" "Stage[main]",
-           "target" "Class[main]"}
+  (expect {:source "Stage[main]",
+           :target "Class[main]"}
           (in edges))
   ;; Stage[main]/Class[Settings]
-  (expect {"source" "Stage[main]",
-           "target" "Class[Settings]"}
+  (expect {:source "Stage[main]",
+           :target "Class[Settings]"}
           (in edges)))
 
 (let [response (app (request :get "/"))

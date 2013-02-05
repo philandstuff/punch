@@ -9,7 +9,7 @@
                      (slurp (clojure.java.io/resource "blank-catalog.json"))))
 
 (defn catalog-for [hostname]
-  (parse-string blank-catalog))
+  (parse-string blank-catalog true))
 
 (defroutes app-routes
   (GET "/" []
