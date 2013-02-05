@@ -5,8 +5,8 @@
   (:require [cheshire.core :refer [parse-string]]))
 
 (let [catalog   (catalog-for "localhost")
-      resources (get-in catalog [:data :resources])
-      edges     (get-in catalog [:data :edges])]
+      resources (:resources catalog)
+      edges     (:edges catalog)]
   ;; should have a Class[main]
   (expect {:type     "Class",
            :title    "main",
