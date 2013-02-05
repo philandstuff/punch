@@ -7,10 +7,13 @@
 (def blank-catalog (binding [*read-eval* false] ; not necessary, but paranoid
                      (slurp (clojure.java.io/resource "blank-catalog.json"))))
 
+(defn catalog-for [hostname]
+  blank-catalog)
+
 (defroutes app-routes
   (GET "/" []
        {:headers {"Content-Type" "application/json"}
-        :body    blank-catalog})
+        :body    (catalog-for "localhost")})
   (route/not-found "Not Found"))
 
 (def app
