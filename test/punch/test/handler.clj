@@ -4,7 +4,9 @@
         punch.handler)
   (:require [cheshire.core :refer [parse-string]]))
 
-(let [resources (get-in (parse-string (catalog-for "localhost")) ["data" "resources"])]
+(let [catalog   (parse-string (catalog-for "localhost"))
+      resources (get-in catalog ["data" "resources"])
+      edges     (get-in catalog ["data" "edges"])]
   ;; should have a Class[main]
   (expect {"type"     "Class",
            "title"    "main",
@@ -24,7 +26,15 @@
            "title"    "Settings",
            "tags"     ["class" "settings"],
            "exported" false}
-          (in resources)))
+          (in resources))
+  ;; Stage[main]/Class[main]
+  (expect {"source" "Stage[main]",
+           "target" "Class[main]"}
+          (in edges))
+  ;; Stage[main]/Class[Settings]
+  (expect {"source" "Stage[main]",
+           "target" "Class[Settings]"}
+          (in edges)))
 
 (let [response (app (request :get "/"))
       parsed-json (parse-string (:body response))]
