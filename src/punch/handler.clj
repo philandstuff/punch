@@ -1,15 +1,16 @@
 (ns punch.handler
-  (:use compojure.core)
+  (:use compojure.core
+        [clojure.java.io :only [reader resource]])
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
             [ring.mock.request :refer [request]]
             [cheshire.core :refer [generate-string parse-string]]))
 
-(def blank-catalog (binding [*read-eval* false] ; not necessary, but paranoid
-                     (slurp (clojure.java.io/resource "blank-catalog.json"))))
+(def blank-catalog (binding [*read-eval* false] ;; turn off EvalReader
+                     (read (java.io.PushbackReader. (reader (resource "blank-catalog.edn"))))))
 
 (defn catalog-for [hostname]
-  (parse-string blank-catalog true))
+  blank-catalog)
 
 (defroutes app-routes
   (GET "/" []
