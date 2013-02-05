@@ -4,7 +4,7 @@
         punch.handler)
   (:require [cheshire.core :refer [parse-string]]))
 
-(let [catalog   (parse-string (catalog-for "localhost"))
+(let [catalog   (catalog-for "localhost")
       resources (get-in catalog ["data" "resources"])
       edges     (get-in catalog ["data" "edges"])]
   ;; should have a Class[main]
