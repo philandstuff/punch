@@ -40,7 +40,6 @@
      :version version
      ;; :tags not done
      ;; :classes not done
-     ;; :edges not done
      :edges (clojure.set/union (:edges c1) (:edges c2))
      :resources (clojure.set/union (:resources c1) (:resources c2))}))
 
