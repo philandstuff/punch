@@ -1,5 +1,14 @@
 (ns punch.catalog)
 
+(defn resource [type title tags params]
+  (let [res {:type type
+             :title title
+             :tags tags
+             :exported false}] ;; hardcoded for now
+    (if params
+      (assoc res :parameters params)
+      res)))
+
 (def blank-catalog
   {:name "foo.vm",
    :tags ["settings"],
@@ -9,20 +18,9 @@
             {:target "Class[main]",
              :source "Stage[main]"}},
    :version 1359994915,
-   :resources #{{:exported false,
-                 :tags ["stage"],
-                 :title "main",
-                 :type "Stage",
-                 :parameters {:name "main"}},
-                {:exported false,
-                 :tags ["class","settings"],
-                 :title "Settings",
-                 :type "Class"},
-                {:exported false,
-                 :tags ["class"],
-                 :title "main",
-                 :type "Class",
-                 :parameters {:name "main"}}
+   :resources #{(resource "Stage" "main" ["stage"] {:name "main"})
+                (resource "Class" "Settings" ["class" "settings"] nil)
+                (resource "Class" "main" ["class"] {:name "main"})
                 }})
 
 (def nginx-additions
