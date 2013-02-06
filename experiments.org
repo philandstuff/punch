@@ -3,3 +3,8 @@
 * create a catalog
 : puppet master --compile foo.vm --modulepath=~/punch/modules --manifestdir=~/punch/manifests 
 puppet 
+* inspirations
+http://lpuppet.banquise.net/ - language-puppet - implementation in
+Haskell
+
+
