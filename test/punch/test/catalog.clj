@@ -25,13 +25,12 @@
 (def basic-catalog?
   (chatty-checker [actual]
                   (and
-                   (some #{class-main} (:resources actual))
-                   (some #{stage-main} (:resources actual))
-                   (some #{class-settings} (:resources actual))
-                   (some #{{:source "Stage[main]"
-                            :target "Class[main]"}} (:edges actual))
-                   (some #{{:source "Stage[main]"
-                            :target "Class[Settings]"}} (:edges actual)))))
+                   (clojure.set/subset? #{class-main stage-main class-settings} (:resources actual))
+                   (clojure.set/subset? #{{:source "Stage[main]"
+                                           :target "Class[main]"}
+                                          {:source "Stage[main]"
+                                           :target "Class[Settings]"}}
+                                        (:edges actual)))))
 
 (fact (catalog-for "localhost") => basic-catalog?)
 
