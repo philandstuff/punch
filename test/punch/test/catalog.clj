@@ -42,4 +42,5 @@
                    :title "nginx",
                    :exported false,
                    :parameters {:ensure "installed"}
-                   :tags ["package" "nginx" "node" "default" "class"]})))
+                   :tags ["package" "nginx" "node" "default" "class"]}))
+  (fact nginx-cat => basic-catalog?))

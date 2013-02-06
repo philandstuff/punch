@@ -34,7 +34,18 @@
    :edges [{:source "Node[default]"
             :target "Package[nginx]"}]})
 
+(defn merge-catalogs [c1 c2]
+  (let [{:keys [name version]} c2]
+    {:name name
+     :version version
+     ;; :tags not done
+     ;; :classes not done
+     ;; :edges not done
+     :edges (vec (clojure.set/union (set (:edges c1)) (set (:edges c2))))
+     :resources (vec (clojure.set/union (set (:resources c1)) (set (:resources c2))))
+     }))
+
 (defn catalog-for [hostname]
   (condp = hostname
-    "nginx" nginx-additions
+    "nginx" (merge-catalogs nginx-additions blank-catalog)
     blank-catalog))
