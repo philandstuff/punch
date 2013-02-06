@@ -25,5 +25,16 @@
                 :parameters {:name "main"}}
                ]})
 
+(def nginx-additions
+  {:resources [{:exported false,
+                :title "nginx",
+                :type  "Package",
+                :parameters {:ensure "installed"},
+                :tags ["package" "nginx" "node" "default" "class"]}]
+   :edges [{:source "Node[default]"
+            :target "Package[nginx]"}]})
+
 (defn catalog-for [hostname]
-  blank-catalog)
+  (condp = hostname
+    "nginx" nginx-additions
+    blank-catalog))
