@@ -42,4 +42,6 @@
                    :exported false,
                    :parameters {:ensure "installed"}
                    :tags ["package" "nginx" "node" "default" "class"]}))
+  (fact edges =>
+        (contains {:source "Node[default]", :target "Package[nginx]"}))
   (fact nginx-cat => basic-catalog?))
