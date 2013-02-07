@@ -1,13 +1,16 @@
 (ns punch.catalog)
 
-(defn resource [type title tags params]
-  (let [res {:type type
-             :title title
-             :tags tags
-             :exported false}] ;; hardcoded for now
-    (if params
-      (assoc res :parameters params)
-      res)))
+(defn resource
+  ([type title tags]
+     (resource type title tags nil))
+  ([type title tags params]
+     (let [res {:type type
+                :title title
+                :tags tags
+                :exported false}] ;; hardcoded for now
+       (if params
+         (assoc res :parameters params)
+         res))))
 
 (def blank-catalog
   {:name "foo.vm",
