@@ -1,8 +1,12 @@
 (ns punch.test.handler
-  (:use expectations
+  (:use [midje.sweet :only [fact contains]]
+        expectations
         ring.mock.request  
         punch.handler)
   (:require [cheshire.core :refer [parse-string]]))
+
+(fact
+  (app (request :get "/invalid")) => (contains {:status 404}))
 
 (let [response (app (request :get "/"))
       parsed-json (parse-string (:body response))]
@@ -16,5 +20,3 @@
   (expect #{"name" "tags" "classes" "edges" "version" "resources"}
           (set (keys (get parsed-json "data")))))
 
-(expect 404
-        (:status (app (request :get "/invalid"))))
