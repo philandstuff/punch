@@ -1,6 +1,5 @@
 (ns punch.test.handler
-  (:use [midje.sweet :only [fact contains]]
-        expectations
+  (:use midje.sweet
         ring.mock.request  
         punch.handler)
   (:require [cheshire.core :refer [parse-string]]))
@@ -10,13 +9,11 @@
 
 (let [response (app (request :get "/"))
       parsed-json (parse-string (:body response))]
-  (expect "application/json" (get-in response [:headers "Content-Type"]))
-  (expect 200                (:status response))
-
-  (expect {"document_type" "Catalog", "metadata" {"api_version" 1}}
-          (in parsed-json))
-  (expect #{"data" "document_type" "metadata"}
-          (set (keys parsed-json)))
-  (expect #{"name" "tags" "classes" "edges" "version" "resources"}
-          (set (keys (get parsed-json "data")))))
+  (facts "basic catalog response"
+    (fact response            => (contains {:status 200}))
+    (fact (:headers response) => (contains {"Content-Type" "application/json"}))
+    (fact parsed-json         => (contains {"document_type" "Catalog", "metadata" {"api_version" 1}}))
+    (fact (keys parsed-json)  => (contains "data" "document_type" "metadata" :in-any-order))
+    (fact (keys (get parsed-json "data"))
+      => (contains "name" "tags" "classes" "edges" "version" "resources" :in-any-order))))
 
