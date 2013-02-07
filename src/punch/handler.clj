@@ -12,13 +12,14 @@
    :data          catalog})
 
 (defroutes app-routes
-  (GET "/" []
+  (GET "/:hostname" [hostname]
        {:headers {"Content-Type" "application/json"}
-        :body    (generate-string (to-json-data-map (catalog-for "localhost")))})
+        :body    (generate-string (to-json-data-map (catalog-for hostname)))})
   (route/not-found "Not Found"))
 
 (def app
   (handler/site app-routes))
 
 (defn -main [& args]
-  (print (:body (app (request :get "/")))))
+  (let [hostname (first args)]
+    (print (:body (app (request :get (str "/" hostname)))))))

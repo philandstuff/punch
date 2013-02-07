@@ -14,7 +14,7 @@ Vagrant::Config.run do |config|
 
   FileUtils.rm_rf 'catalogs'
   FileUtils.mkdir 'catalogs'
-  system 'lein run > catalogs/vm.json'
+  system 'lein run nginx > catalogs/vm.json'
   config.vm.provision :puppet do |puppet|
     puppet.options = "--catalog" # hackity hack
     puppet.manifests_path = 'catalogs'

@@ -5,15 +5,14 @@
   (:require [cheshire.core :refer [parse-string]]))
 
 (fact
-  (app (request :get "/invalid")) => (contains {:status 404}))
+  (app (request :get "/invalid/url")) => (contains {:status 404}))
 
-(let [response (app (request :get "/"))
-      parsed-json (parse-string (:body response))]
+(let [response (app (request :get "/localhost"))]
   (facts "basic catalog response"
     (fact response            => (contains {:status 200}))
     (fact (:headers response) => (contains {"Content-Type" "application/json"}))
-    (fact parsed-json         => (contains {"document_type" "Catalog", "metadata" {"api_version" 1}}))
-    (fact (keys parsed-json)  => (contains "data" "document_type" "metadata" :in-any-order))
-    (fact (keys (get parsed-json "data"))
-      => (contains "name" "tags" "classes" "edges" "version" "resources" :in-any-order))))
-
+    (let [parsed-json (parse-string (:body response))]
+      (fact parsed-json         => (contains {"document_type" "Catalog", "metadata" {"api_version" 1}}))
+      (fact (keys parsed-json)  => (contains "data" "document_type" "metadata" :in-any-order))
+      (fact (keys (get parsed-json "data"))
+        => (contains "name" "tags" "classes" "edges" "version" "resources" :in-any-order)))))
