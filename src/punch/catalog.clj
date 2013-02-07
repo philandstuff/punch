@@ -27,11 +27,8 @@
                 }})
 
 (def nginx-additions
-  {:resources #{{:exported false,
-                 :title "nginx",
-                 :type  "Package",
-                 :parameters {:ensure "installed"},
-                 :tags ["package" "nginx" "node" "default" "class"]}}
+  {:resources #{(resource "Package" "nginx" ["package" "nginx" "node" "default" "class"] {:ensure "installed"})
+                (resource "Node"  "default" ["node" "default" "class"])}
    :edges #{{:source "Node[default]"
              :target "Package[nginx]"}}})
 
