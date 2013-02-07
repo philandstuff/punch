@@ -39,5 +39,6 @@
     (contains (resource "Package" "nginx" ["package" "nginx" "node" "default" "class"] {:ensure "installed"})
               (resource "Node" "default" ["node" "default" "class"])))
   (fact edges =>
-        (contains {:source "Node[default]", :target "Package[nginx]"}))
+    (contains {:source "Node[default]", :target "Package[nginx]"}
+              {:source "Class[main]",   :target "Node[default]"}))
   (fact nginx-cat => basic-catalog?))

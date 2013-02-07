@@ -29,8 +29,8 @@
 (def nginx-additions
   {:resources #{(resource "Package" "nginx" ["package" "nginx" "node" "default" "class"] {:ensure "installed"})
                 (resource "Node"  "default" ["node" "default" "class"])}
-   :edges #{{:source "Node[default]"
-             :target "Package[nginx]"}}})
+   :edges #{{:source "Node[default]" :target "Package[nginx]"}
+            {:source "Class[main]"   :target "Node[default]"}}})
 
 (defn merge-catalogs [c1 c2]
   (let [{:keys [name version]} c2]
