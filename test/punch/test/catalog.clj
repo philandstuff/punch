@@ -36,11 +36,7 @@
 (let [nginx-cat (catalog-for "nginx")
       {:keys [resources edges]} nginx-cat]
   (fact resources =>
-        (contains {:type "Package",
-                   :title "nginx",
-                   :exported false,
-                   :parameters {:ensure "installed"}
-                   :tags ["package" "nginx" "node" "default" "class"]}))
+    (contains (resource "Package" "nginx" ["package" "nginx" "node" "default" "class"] {:ensure "installed"})))
   (fact edges =>
         (contains {:source "Node[default]", :target "Package[nginx]"}))
   (fact nginx-cat => basic-catalog?))
