@@ -2,26 +2,6 @@
   (:use midje.sweet
         punch.catalog))
 
-(def class-main
-  {:type     "Class",
-   :title    "main",
-   :parameters {:name "main"},
-   :tags     ["class"],
-   :exported false})
-
-(def stage-main
-  {:type     "Stage",
-   :title    "main",
-   :parameters {:name "main"},
-   :tags     ["stage"],
-   :exported false})
-
-(def class-settings
-  {:type     "Class",
-   :title    "Settings",
-   :tags     ["class" "settings"],
-   :exported false})
-
 (def basic-catalog?
   (chatty-checker [actual]
                   (and
