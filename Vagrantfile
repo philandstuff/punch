@@ -1,8 +1,8 @@
 require 'fileutils'
-BOX_URL = "http://files.vagrantup.com/precise64.box"
+BOX_URL = "https://s3-eu-west-1.amazonaws.com/philandstuff/ubuntu-12.04-2013-02-07.box"
 
 Vagrant::Config.run do |config|
-  config.vm.box = "precise_64"
+  config.vm.box = "punch-precise-2013-02-07"
   config.vm.box_url = BOX_URL
   config.vm.customize ["modifyvm", :id, "--rtcuseutc", "on"]
 
