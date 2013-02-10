@@ -22,7 +22,7 @@
              :source "Stage[main]"}},
    :version 1359994915,
    :resources #{(resource "Stage" "main" ["stage"] {:name "main"})
-                (resource "Class" "Settings" ["class" "settings"] nil)
+                (resource "Class" "Settings" ["class" "settings"])
                 (resource "Class" "main" ["class"] {:name "main"})
                 }})
 
